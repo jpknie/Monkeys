@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 
 import os
+import sys
+import subprocess
+
 
 from flask.ext.script import Manager, Server
 
@@ -14,6 +17,11 @@ else:
     app = create_app(__name__, DevelopmentConfig)
 
 manager = Manager(app)
+
+@manager.command
+def test():
+    status = subprocess.call("py.test", shell=True)
+    sys.exit(status)
 
 
 @manager.command

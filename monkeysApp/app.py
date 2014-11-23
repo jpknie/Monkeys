@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+
 from flask import Flask, _app_ctx_stack
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session, Query as SAQuery
