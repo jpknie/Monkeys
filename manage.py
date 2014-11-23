@@ -15,6 +15,7 @@ if os.environ.get('MONKEYAPP_ENV') == 'production':
     app = create_app(__name__, ProductionConfig)
 else:
     app = create_app(__name__, DevelopmentConfig)
+    app.debug=True
 
 manager = Manager(app)
 
