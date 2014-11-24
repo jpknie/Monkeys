@@ -1,10 +1,11 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Integer, String, Column
 from sqlalchemy.orm import relationship
-from .app import DbSession
 
 
 class BaseModel(object):
+    from monkeysApp.app import DbSession
+
     query = DbSession.query_property()
 
     def as_dict(self):
@@ -23,7 +24,7 @@ class Monkey(Base):
     name = Column(String(256))
     age = Column(Integer)
 
-    def __init__(self, email, name, age):
+    def __init__(self, email="", name="", age=""):
         self.email = email
         self.name = name
         self.age = age
@@ -35,4 +36,4 @@ def __repr__(self):
 
 def __str__(self):
     return u'<{} {} {} {}>'.format(self.id, self.email, self.name,
-                                  self.age)
+                                   self.age)
