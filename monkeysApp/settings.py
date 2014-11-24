@@ -19,4 +19,5 @@ class DevelopmentConfig(Config):
 
 class TestConfig(Config):
     TESTING = True
+    WTF_CSRF_ENABLED = False
     SQLALCHEMY_DATABASE_URI = 'postgresql://janiniem:devpass@localhost/monkeys_test'
