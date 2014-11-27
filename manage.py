@@ -44,8 +44,11 @@ def list_routes():
 
 @manager.command
 def createdb():
-    Base.metadata.create_all(bind=app.engine)
+	Base.metadata.create_all(bind=app.engine)
 
+@manager.command
+def dropdb():
+	Base.metadata.drop_all(bind=app.engine)
 
 manager.add_command("run", Server())
 
