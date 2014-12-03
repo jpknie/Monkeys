@@ -29,6 +29,7 @@ class Monkey(Base):
     email = Column(String(256), unique=True)
     name = Column(String(256))
     age = Column(Integer)
+    password = Column(String(256))
     friends = relationship('Monkey',
                            secondary=friendships,
                            primaryjoin=(friendships.c.user_id == id),
@@ -40,10 +41,11 @@ class Monkey(Base):
 
     friend_requests = relationship('Monkey', backref=backref('requester', remote_side=[id]))
 
-    def __init__(self, email="", name="", age=""):
+    def __init__(self, email='', name='', age='', password=''):
         self.email = email
         self.name = name
         self.age = age
+        self.password = password
 
     def request(self, other_monkey):
         if (not other_monkey in self.friend_requests) and (not self in other_monkey.friend_requests):
@@ -93,6 +95,15 @@ class Monkey(Base):
             self.friends.remove(monkey)
         if self in monkey.friends:
             monkey.friends.remove(self)
+
+    def is_anonymous(self):
+        return False
+
+    def is_authenticated(self):
+        return True
+
+    def get_id(self):
+        return unicode(self.id)
 
     def __repr__(self):
         return self.__str__()
