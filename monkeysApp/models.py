@@ -20,6 +20,12 @@ friendships = Table('friendships',
                     Column('friend_id', Integer, ForeignKey('monkey.id'))
 )
 
+monkey_friend_requests = Table('friend_requests',
+                               Base.metadata,
+                               Column('user_id', Integer, ForeignKey('monkey.id')),
+                               Column('requester_id', Integer, ForeignKey('monkey.id'))
+)
+
 
 class Monkey(Base):
     """Monkey model"""
@@ -37,9 +43,13 @@ class Monkey(Base):
                            backref=backref('friendships', lazy='dynamic'),
                            lazy='dynamic')
 
-    requester_id = Column(Integer, ForeignKey('monkey.id'))
+    friend_requests = relationship('Monkey',
+                                   secondary=monkey_friend_requests,
+                                   primaryjoin=(monkey_friend_requests.c.user_id == id),
+                                   secondaryjoin=(monkey_friend_requests.c.requester_id == id),
+                                   backref=backref('monkey_friend_requests', lazy='dynamic'),
+                                   lazy='dynamic')
 
-    friend_requests = relationship('Monkey', backref=backref('requester', remote_side=[id]))
 
     def __init__(self, email='', name='', age='', password=''):
         self.email = email
@@ -52,24 +62,25 @@ class Monkey(Base):
             self.friend_requests.append(other_monkey)
 
     def friend_requests_count(self):
-        return len(self.friend_requests)
+        return self.friend_requests.count()
 
     def friend(self, monkey):
         """
             Make a friend monkey
             :param monkey to be friended
         """
-        # Check if they are already friends
-        if not self.is_friend(monkey):
-            # Check if the other user has sent friend request
-            if monkey in self.friend_requests:
-                # Accept the friendship
-                self.friends.append(monkey)
-                # Remove the old friend request
-                self.friend_requests.remove(monkey)
-            # Initiate friend request
-            else:
-                monkey.request(self)
+        if monkey.id != self.id:
+            # Check if they are already friends
+            if not self.is_friend(monkey):
+                # Check if the other user has sent friend request
+                if monkey in self.friend_requests:
+                    # Accept the friendship
+                    self.friends.append(monkey)
+                    # Remove the old friend request
+                    self.friend_requests.remove(monkey)
+                    # Initiate friend request
+                else:
+                    monkey.request(self)
 
     def deny_request(self, monkey):
         """
