@@ -1,6 +1,7 @@
 from __future__ import absolute_import
 
 from flask import Flask, _app_ctx_stack, abort
+from flask.ext.login import LoginManager
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session, Query as SAQuery
 from sqlalchemy.orm.exc import NoResultFound, MultipleResultsFound
@@ -10,6 +11,8 @@ DbSession = scoped_session(sessionmaker(),
                            # __ident_func__ should be hashable, therefore used
                            # for recognizing different incoming requests
                            scopefunc=_app_ctx_stack.__ident_func__)
+
+login_manager = LoginManager()
 
 
 class BaseQuery(SAQuery):
@@ -45,14 +48,23 @@ def create_app(name, config_obj):
     @app.teardown_appcontext
     def teardown(exception=None):
         if isinstance(exception, NoResultFound) or \
-           isinstance(exception, MultipleResultsFound):
+                isinstance(exception, MultipleResultsFound):
             abort(404)
         global DbSession
         if DbSession:
             DbSession.remove()
 
+    register_extensions(app)
     register_blueprints(app)
+
     return app
+
+
+def register_extensions(app):
+    global login_manager
+    login_manager.init_app(app)
+    login_manager.login_view = 'login'
+
 
 import monkeysApp.views.main
 
