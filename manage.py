@@ -15,18 +15,21 @@ if os.environ.get('MONKEYAPP_ENV') == 'production':
     app = create_app(__name__, ProductionConfig)
 else:
     app = create_app(__name__, DevelopmentConfig)
-    app.debug=True
+    app.debug = True
 
 manager = Manager(app)
+
 
 @manager.command
 def test():
     status = subprocess.call("py.test", shell=True)
     sys.exit(status)
 
+
 @manager.command
 def list_routes():
     import urllib
+
     output = []
     for rule in app.url_map.iter_rules():
 
@@ -42,13 +45,16 @@ def list_routes():
     for line in sorted(output):
         print line
 
+
 @manager.command
 def createdb():
-	Base.metadata.create_all(bind=app.engine)
+    Base.metadata.create_all(bind=app.engine)
+
 
 @manager.command
 def dropdb():
-	Base.metadata.drop_all(bind=app.engine)
+    Base.metadata.drop_all(bind=app.engine)
+
 
 manager.add_command("run", Server())
 
