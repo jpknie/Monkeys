@@ -68,6 +68,7 @@ class Monkey(Base):
         """
             Make a friend monkey
             :param monkey to be friended
+            :return True if friending succeeded, False otherwise
         """
         if monkey.id != self.id:
             # Check if they are already friends
@@ -81,6 +82,11 @@ class Monkey(Base):
                     # Initiate friend request
                 else:
                     monkey.request(self)
+                return True
+            else:
+                return False
+        else:
+            return False
 
     def deny_request(self, monkey):
         """
