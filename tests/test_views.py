@@ -5,7 +5,7 @@ from monkeysApp.models import Monkey
 def test_index(test_client):
     with test_client as client:
         rv = client.get('/')
-    assert "Hello world!" in rv.data
+    assert rv.status_code is 200
 
 
 def test_monkey_add(app, test_client, session):
@@ -22,3 +22,6 @@ def test_monkey_add(app, test_client, session):
         assert test_monkey.email == "test@monkey.com"
         assert test_monkey.age == 12
 
+
+def test_monkey_delete(app, test_client, session):
+    pass
