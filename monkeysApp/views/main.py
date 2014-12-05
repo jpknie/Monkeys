@@ -1,4 +1,4 @@
-from flask import Blueprint, g, render_template, request, flash, redirect, url_for, session
+from flask import Blueprint, g, render_template, request, flash, redirect, url_for, session, make_response
 from flask.ext.login import current_user, login_required, logout_user
 
 from sqlalchemy.exc import IntegrityError
@@ -56,14 +56,19 @@ def monkey_add():
 @main_blueprint.route('/monkeys/friends', methods=['GET'])
 def monkey_friends():
     """Show list of friends of g.user"""
-    pass
+    me = g.user
+    friends = me.all_friends
+    return render_template('monkey_friends.html', friends=friends)
 
 
 @login_required
 @main_blueprint.route('/monkeys/friend_requests', methods=['GET'])
 def monkey_friend_requests():
     """Get the list of pending friend requests"""
-    pass
+    page_title = "Friend requests"
+    me = g.user
+    frqs = me.friend_requests.all()
+    return render_template('friend_requests.html', page_title=page_title, friend_requests=list(frqs))
 
 
 @login_required
@@ -81,11 +86,21 @@ def monkey_show_profile(monkey_id):
 
 
 @login_required
-@main_blueprint.route('/monkeys/friend_request/<int:monkey_id>', methods=['GET'])
-def send_friend_request(monkey_id):
-    """Send a friend request from g.user to monkey with monkey_id"""
-    pass
-
+@main_blueprint.route('/monkeys/make_friend/<int:monkey_id>', methods=['GET'])
+def make_friend(monkey_id):
+    """Be friends with monkey"""
+    send_to = Monkey.query.filter_by(id = monkey_id).first()
+    if send_to is not None:
+        me = g.user
+        if me.friend(send_to) is not False:
+            db.commit()
+            response = make_response("", 200)
+        else:
+            response = make_response("", 400)
+        return response
+    else:
+        response = make_response("", 400)
+        return response
 
 @main_blueprint.route('/login', methods=['GET', 'POST'])
 def login():
