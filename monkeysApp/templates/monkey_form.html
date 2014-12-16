@@ -1,27 +1,60 @@
 {% extends 'base.html' %}
 {% block content %}
+    <section id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <!-- To configure the contact form email address, go to mail/contact_me.php and update the email address in the PHP file on line 19. -->
+                    <!-- The form should work on most web servers, but if the form is not working you may need to configure your web server differently. -->
+                    <form class="form" action="{{ form_action }}" method="post" name="sentMessage" id="contactForm" novalidate>
+                        {{ form.csrf_token }}
+                        <div class="row control-group">
+                            <div class="form-group col-xs-12 floating-label-form-group controls">
+                                <label>Name</label>
+                                {{ form.name(class='form-control', placeholder='Name', id='name', **{'data-validation-required-message':'Please enter your name.'}) }}
+                                <p class="help-block text-danger"></p>
+                            </div>
+                        </div>
+                        <div class="row control-group">
+                            <div class="form-group col-xs-12 floating-label-form-group controls">
+                                <label>Email Address (login name)</label>
+                                {{ form.email(class='form-control', placeholder='Email', id='email', **{'data-validation-required-message':'Please enter your email.'}) }}
+                                <p class="help-block text-danger"></p>
+                            </div>
+                        </div>
+                        <div class="row control-group">
+                            <div class="form-group col-xs-12 floating-label-form-group controls">
+                                <label>Age</label>
+                                {{ form.age(class='form-control', placeholder='Age', id='age', **{'data-validation-required-message':'Please enter your age.'}) }}
+                                <p class="help-block text-danger"></p>
+                            </div>
+                        </div>
+                        <div class="row control-group">
+                            <div class="form-group col-xs-12 floating-label-form-group controls">
+                                <label>Password</label>
+                                {{ form.password(class='form-control', placeholder='Password', id='password') }}
+                                <p class="help-block text-danger"></p>
+                            </div>
+                        </div>
+                        <div class="row control-group">
+                            <div class="form-group col-xs-12 floating-label-form-group controls">
+                                <label>Retype password</label>
+                                <input type="password" class="form-control" placeholder="Confirm Password" name="confirmPassword" data-validation-matches-match="password" data-validation-matches-message="Must match password entered above">
+                                <p class="help-block text-danger"></p>
+                            </div>
+                        </div>
 
-<form action="" method="post" class="form-inline">
-{{ form.csrf_token }}
-<dl>
-<dt>Name:
-<dd>{{ form['name'] }}
-<dt>Email:
-<dd>{{ form['email'] }}
-<dt>Age:
-<dd>{{ form['age'] }}
-<dd><input type=submit value="Save">
-</dl>
-</form>
-
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-    <ul>
-                {% for message in messages %}
-                <li>{{ message }}</li>
-                {% endfor %}
-    </ul>
-    {% endif %}
-    {% endwith %}
+                        <br>
+                        <div id="success"></div>
+                        <div class="row">
+                            <div class="form-group col-xs-12">
+                                <button type="submit" class="btn btn-success btn-lg">Save</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
 
 {% endblock %}

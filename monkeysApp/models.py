@@ -57,6 +57,9 @@ class Monkey(Base):
         self.age = age
         self.password = password
 
+    def has_friend_request(self, other_monkey):
+        return other_monkey in self.friend_requests
+
     def request(self, other_monkey):
         if (not other_monkey in self.friend_requests) and (not self in other_monkey.friend_requests):
             self.friend_requests.append(other_monkey)

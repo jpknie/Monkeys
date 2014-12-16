@@ -14,3 +14,4 @@ class MonkeyForm(Form):
     email = TextField('Email', validators=[Required(), Email(message=u'Invalid email address.')])
     name = TextField('Name', validators=[Required()])
     age = IntegerField('Age', validators=[Required()])
+    password = PasswordField('Password')

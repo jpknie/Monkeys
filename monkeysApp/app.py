@@ -37,7 +37,7 @@ class BaseQuery(SAQuery):
 
 
 def create_app(name, config_obj):
-    app = Flask(name, template_folder="monkeysApp/templates")
+    app = Flask(name, template_folder="monkeysApp/templates", static_folder="monkeysApp/static")
     app.config.from_object(config_obj)
 
     app.engine = create_engine(app.config["SQLALCHEMY_DATABASE_URI"])
