@@ -1,4 +1,7 @@
 {% extends 'base.html' %}
+{% block header_content %}
+        {% include 'header.html' %}
+{% endblock %}
 {% block content %}
     <section id="contact">
         <div class="container">
@@ -18,7 +21,11 @@
                         <div class="row control-group">
                             <div class="form-group col-xs-12 floating-label-form-group controls">
                                 <label>Email Address (login name)</label>
-                                {{ form.email(class='form-control', placeholder='Email', id='email', **{'data-validation-required-message':'Please enter your email.'}) }}
+                                {% if form_edit %}
+                                    {{ form.email(readonly="readonly", class='form-control', placeholder='Email', id='email', **{'data-validation-required-message':'Please enter your email.'}) }}
+                                {% else %}
+                                    {{ form.email(class='form-control', placeholder='Email', id='email', **{'data-validation-required-message':'Please enter email address.'}) }}
+                                {% endif %}
                                 <p class="help-block text-danger"></p>
                             </div>
                         </div>
@@ -32,7 +39,7 @@
                         <div class="row control-group">
                             <div class="form-group col-xs-12 floating-label-form-group controls">
                                 <label>Password</label>
-                                {{ form.password(class='form-control', placeholder='Password', id='password') }}
+                                {{ form.password(required='true', class='form-control', placeholder='Password', id='password') }}
                                 <p class="help-block text-danger"></p>
                             </div>
                         </div>
