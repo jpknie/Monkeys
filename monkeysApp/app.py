@@ -63,7 +63,7 @@ def create_app(name, config_obj):
 def register_extensions(app):
     global login_manager
     login_manager.init_app(app)
-    login_manager.login_view = 'login'
+    login_manager.login_view = 'main_blueprint.login'
 
 
 import monkeysApp.views.main
