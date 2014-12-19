@@ -8,7 +8,7 @@ $(function() {
     var unfriend_button = friend_button.find("#unfriend");
 
     if(make_friend_button.length) {
-        make_friend_button.click(function () {
+        friend_button.click(function () {
             var friend_id = make_friend_button.data('friend-id');
             $.ajax(
                 {
@@ -23,7 +23,7 @@ $(function() {
     }
 
     else if(unfriend_button.length) {
-        unfriend_button.click(function() {
+        friend_button.click(function() {
             var friend_id = unfriend_button.data('friend-id');
             $.ajax(
                 {
