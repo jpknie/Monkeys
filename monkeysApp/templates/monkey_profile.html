@@ -1,35 +1,8 @@
 {% extends 'base.html' %}
+{% block header_content %}
+        {% include 'profile_header.html' %}
+{% endblock %}
     {% block content %}
-
-    <section id="profile">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-offset-4">
-                <div class="col-lg-4">
-                    <img class="img-responsive" src="/static/img/profile.png">
-               </div>
-               <div class="col-lg-2">
-                {% if my_profile != True %}
-                    {% if is_my_friend %}
-                        <button id="friend-button" type="button" class="btn btn-minus" title="Unfriend this user">
-                        <span class="glyphicon glyphicon-minus" data-friend-id="{{ friend.id }}" aria-hidden="true" id="unfriend"></span>
-                    {% else %}
-                    {% if sent_friend_request %}
-                        <button id="friend-button" type="button" class="btn btn-default" title="You have sent friend request to the user">
-                        <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
-                    {% elif rcvd_friend_request %}
-                        <button id="friend-button" type="button" class="btn btn-default" title="You have received friend request from this user">
-                        <span class="glyphicon glyphicon-star" data-friend-id="{{ friend.id }}" aria-hidden="true" id="make-friend"></span>
-                    {% else %}
-                        <button id="friend-button" type="button" class="btn btn-default" title="Send friend request to the user">
-                        <span class="glyphicon glyphicon-plus" data-friend-id="{{ friend.id }}" aria-hidden="true" id="make-friend"></span>
-                    {% endif %}
-                {% endif %}
-                </button>
-            </div>
-        </div>
-        </div>
-      </div>
-    </section>
-    {% endif %}
+        <section id="about">
+        </section>
     {% endblock %}
