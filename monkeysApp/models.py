@@ -1,4 +1,4 @@
-from sqlalchemy import Integer, String, Column, ForeignKey, select
+from sqlalchemy import SmallInteger, Integer, String, Column, ForeignKey, select
 from sqlalchemy.schema import Table
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, backref
@@ -36,6 +36,9 @@ class Monkey(Base):
     name = Column(String(256))
     age = Column(Integer)
     password = Column(String(256))
+    face_image = Column(String(256))
+    admin = Column(SmallInteger, default=0)
+
     friends = relationship('Monkey',
                            secondary=friendships,
                            primaryjoin=(friendships.c.user_id == id),
@@ -109,6 +112,9 @@ class Monkey(Base):
         if (monkey in self.friends) or (self in monkey.friends):
             return True
         return False
+
+    def is_admin(self):
+        return self.admin == 1
 
     def remove_friend(self, monkey):
         if monkey in self.friends:
