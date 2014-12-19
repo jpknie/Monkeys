@@ -1,0 +1,33 @@
+{% block header_content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <img class="img-responsive" src="/static/img/profile/{{ profile.face_image }}" alt>
+                <div class="intro-text">
+                    <span class="name">{{ profile.name }}</span>
+                    <hr class="star-light">
+                    <span class="skills">{{ profile.email }} - {{ profile.age }}</span>
+                {% if my_profile != True %}
+                    <div id="friend-button">
+                    {% if is_my_friend %}
+                        <button type="button" class="btn btn-minus btn-outline" title="Unfriend this user">
+                        <span class="glyphicon glyphicon-minus" data-friend-id="{{ profile.id }}" aria-hidden="true" id="unfriend"></span> Unfriend
+                    {% else %}
+                    {% if sent_friend_request %}
+                        <button type="button" class="btn btn-default btn-outline" title="You have sent friend request to the user">
+                        <span class="glyphicon glyphicon-heart" aria-hidden="true"></span> Friend request sent
+                    {% elif rcvd_friend_request %}
+                        <button type="button" class="btn btn-default btn-outline" title="You have received friend request from this user">
+                        <span class="glyphicon glyphicon-star" data-friend-id="{{ profile.id }}" aria-hidden="true" id="make-friend"></span>  Accept friend request
+                    {% else %}
+                       <button type="button" class="btn btn-outline" title="Send friend request to the user">
+                       <span class="glyphicon glyphicon-plus" data-friend-id="{{ profile.id }}" aria-hidden="true" id="make-friend"></span> Send friend request
+                    {% endif %}
+                {% endif %}
+                </button>
+                  </div>
+            </div>
+        </div>
+    </div>
+        {% endif %}
+{% endblock %}
